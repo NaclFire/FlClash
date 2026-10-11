@@ -1,4 +1,4 @@
 
--keep class com.follow.clash.models.** { *; }
+-keep class io.github.findnet.models.** { *; }
 
--keep class com.follow.clash.service.models.** { *; }
+-keep class io.github.findnet.service.models.** { *; }

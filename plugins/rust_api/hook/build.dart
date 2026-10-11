@@ -33,13 +33,31 @@ Map<String, String> _bindgenEnvironment(BuildInput input) {
       '${llvmRoot.path}${Platform.pathSeparator}$name',
     );
     if (directory.existsSync() && directory.listSync().any(_isLibclang)) {
-      return {'LIBCLANG_PATH': directory.path};
+      final environment = {'LIBCLANG_PATH': directory.path};
+      // bindgen resolves the header search list by running this clang, and
+      // only the NDK's own clang names the resource directory holding
+      // stdbool.h. The libclang above is a bare parser, so pairing it with a
+      // foreign clang silently drops that directory.
+      final clang = _ndkClang(compiler);
+      if (clang != null) {
+        environment['CLANG_PATH'] = clang;
+      }
+      return environment;
     }
   }
   throw StateError(
     'No libclang under ${llvmRoot.path} (lib or lib64); the NDK Flutter '
     'passed cannot run bindgen for rquickjs',
   );
+}
+
+// The clang beside the compiler Flutter handed us is the one whose resource
+// directory matches this NDK, so point bindgen back at it.
+String? _ndkClang(Uri compiler) {
+  final candidate = File.fromUri(compiler);
+  if (candidate.existsSync()) return candidate.path;
+  final windows = File('${candidate.path}.exe');
+  return windows.existsSync() ? windows.path : null;
 }
 
 bool _isLibclang(FileSystemEntity entity) {

@@ -1,11 +1,11 @@
-package com.follow.clash
+package io.github.findnet
 
-import com.follow.clash.common.AccessControlMode
-import com.follow.clash.models.SetupParams
-import com.follow.clash.models.SharedState
-import com.follow.clash.service.models.AccessControlProps
-import com.follow.clash.service.models.NotificationParams
-import com.follow.clash.service.models.VpnOptions
+import io.github.findnet.common.AccessControlMode
+import io.github.findnet.models.SetupParams
+import io.github.findnet.models.SharedState
+import io.github.findnet.service.models.AccessControlProps
+import io.github.findnet.service.models.NotificationParams
+import io.github.findnet.service.models.VpnOptions
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -104,7 +104,7 @@ private class FakeHost(override val scope: CoroutineScope) : ServiceStateHost {
     var lastStartOptions: VpnOptions? = null
 
     override var runTimeMillis = 0L
-    override val homeDirPath = "/data/user/0/com.follow.clash/files"
+    override val homeDirPath = "/data/user/0/io.github.findnet/files"
     override val sdkInt = 34
 
     val toasts = mutableListOf<String>()

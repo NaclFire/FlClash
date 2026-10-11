@@ -138,9 +138,16 @@ void main() {
       )!;
 
       expect(request.target, Target.androidArm64);
+      // The NDK's extensionless wrapper is a shell script; Windows can only
+      // spawn the .cmd one, so that is what the toolchain must name.
       expect(
         request.androidToolchain!.clangFor(Target.androidArm64),
-        p.join(bin, 'aarch64-linux-android23-clang'),
+        p.join(
+          bin,
+          Platform.isWindows
+              ? 'aarch64-linux-android23-clang.cmd'
+              : 'aarch64-linux-android23-clang',
+        ),
       );
     });
 

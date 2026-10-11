@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 
@@ -21,8 +23,17 @@ class AndroidToolchain {
   final String clangDirectory;
   final int apiLevel;
 
-  String clangFor(Target target) =>
-      p.join(clangDirectory, '${target.ndkTriple}$apiLevel-clang');
+  // The NDK ships the API-level wrappers twice: an extensionless shell script
+  // and a .cmd. Only the .cmd is executable on Windows, and the shell script
+  // still exists there, so a bare existence check passes and the build then
+  // fails to spawn it.
+  String clangFor(Target target) {
+    final name = '${target.ndkTriple}$apiLevel-clang';
+    if (Platform.isWindows) {
+      return p.join(clangDirectory, '$name.cmd');
+    }
+    return p.join(clangDirectory, name);
+  }
 }
 
 class BuildRequest {

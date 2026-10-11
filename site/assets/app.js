@@ -402,7 +402,7 @@
             'tipIntentTitle',
             'tipIntent',
             commandBlock(
-              ['com.follow.clash.action.START', 'com.follow.clash.action.STOP', 'com.follow.clash.action.TOGGLE'].join(
+              ['io.github.findnet.action.START', 'io.github.findnet.action.STOP', 'io.github.findnet.action.TOGGLE'].join(
                 '\n',
               ),
             ),
