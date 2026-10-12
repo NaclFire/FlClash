@@ -214,12 +214,11 @@ Future<int> _package(
     runInShell: Platform.isWindows,
   );
 
-  process.stdout.listen((data) {
-    stdout.write(utf8.decode(data));
-  });
-  process.stderr.listen((data) {
-    stderr.write(utf8.decode(data));
-  });
+  // runInShell hands back the console code page, which is not UTF-8 on a
+  // localized Windows, and a chunk may split a multibyte character.
+  const decoder = Utf8Decoder(allowMalformed: true);
+  process.stdout.transform(decoder).listen(stdout.write);
+  process.stderr.transform(decoder).listen(stderr.write);
   final exitCode = await process.exitCode;
   return exitCode;
 }
