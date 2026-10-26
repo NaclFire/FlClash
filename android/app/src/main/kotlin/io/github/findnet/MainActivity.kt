@@ -1,6 +1,7 @@
 package io.github.findnet
 
 import io.github.findnet.plugins.AppPlugin
+import io.github.findnet.plugins.BatteryPlugin
 import io.github.findnet.plugins.ServicePlugin
 import io.github.findnet.plugins.TilePlugin
 import io.flutter.embedding.android.FlutterActivity
@@ -10,6 +11,7 @@ class MainActivity : FlutterActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         flutterEngine.plugins.add(AppPlugin())
+        flutterEngine.plugins.add(BatteryPlugin())
         flutterEngine.plugins.add(ServicePlugin())
         flutterEngine.plugins.add(TilePlugin())
         ServiceState.attachFlutterEngine(flutterEngine)

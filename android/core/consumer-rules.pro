@@ -1,0 +1,2 @@
+-keep class go.** { *; }
+-keep class io.github.findnet.core.mobile.** { *; }
